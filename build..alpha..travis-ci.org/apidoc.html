@@ -1,0 +1,278 @@
+<div class="apidocDiv">
+<style>
+/*csslint
+*/
+.apidocDiv {
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.apidocDiv a[href] {
+    color: #33f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.apidocDiv a[href]:hover {
+    text-decoration: underline;
+}
+.apidocCodeCommentSpan {
+    background: #bbf;
+    color: #000;
+    display: block;
+}
+.apidocCodeKeywordSpan {
+    color: #d00;
+    font-weight: bold;
+}
+.apidocCodePre {
+    background: #eef;
+    border: 1px solid;
+    color: #777;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+.apidocFooterDiv {
+    margin-top: 20px;
+    text-align: center;
+}
+.apidocModuleLi {
+    margin-top: 10px;
+}
+.apidocSectionDiv {
+    border-top: 1px solid;
+    margin-top: 20px;
+}
+.apidocSignatureSpan {
+    color: #777;
+    font-weight: bold;
+}
+</style>
+<h1>api documentation for
+    <a
+
+    >babel-preset-node6 (v11.0.0)</a>
+</h1>
+<h4>Babel preset for Node 6.x (ES6 / ES2015)</h4>
+<div class="apidocSectionDiv"><a
+    href="#apidoc.tableOfContents"
+    id="apidoc.tableOfContents"
+><h1>table of contents</h1></a><ol>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.babel-preset-node6">module babel-preset-node6</a><ol>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">babel-preset-node6.</span>plugins</span>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.babel-preset-node6.plugins">module babel-preset-node6.plugins</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.babel-preset-node6.plugins.0">
+            function <span class="apidocSignatureSpan">babel-preset-node6.plugins.</span>0
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.babel-preset-node6.plugins.1">
+            function <span class="apidocSignatureSpan">babel-preset-node6.plugins.</span>1
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+</ol></div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.babel-preset-node6" id="apidoc.module.babel-preset-node6">module babel-preset-node6</a></h1>
+
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.babel-preset-node6.plugins" id="apidoc.module.babel-preset-node6.plugins">module babel-preset-node6.plugins</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.babel-preset-node6.plugins.0" id="apidoc.element.babel-preset-node6.plugins.0">
+        function <span class="apidocSignatureSpan">babel-preset-node6.plugins.</span>0
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">0 = function () {
+  return {
+    manipulateOptions: function manipulateOptions(opts, parserOpts) {
+      parserOpts.plugins.push(&#x22;trailingFunctionCommas&#x22;);
+    }
+  };
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.babel-preset-node6.plugins.1" id="apidoc.element.babel-preset-node6.plugins.1">
+        function <span class="apidocSignatureSpan">babel-preset-node6.plugins.</span>1
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">1 = function () {
+  var REASSIGN_REMAP_SKIP = (0, _symbol2.default)();
+
+  var reassignmentVisitor = {
+    ReferencedIdentifier: function ReferencedIdentifier(path) {
+      var name = path.node.name;
+      var remap = this.remaps[name];
+      if (!remap) return;
+
+      if (this.scope.getBinding(name) !== path.scope.getBinding(name)) return;
+
+      if (path.parentPath.isCallExpression({ callee: path.node })) {
+        path.replaceWith(t.sequenceExpression([t.numericLiteral(0), remap]));
+      } else if (path.isJSXIdentifier() &#x26;&#x26; t.isMemberExpression(remap)) {
+        var object = remap.object,
+            property = remap.property;
+
+        path.replaceWith(t.JSXMemberExpression(t.JSXIdentifier(object.name), t.JSXIdentifier(property.name)));
+      } else {
+        path.replaceWith(remap);
+      }
+      this.requeueInParent(path);
+    },
+    AssignmentExpression: function AssignmentExpression(path) {
+      var node = path.node;
+      if (node[REASSIGN_REMAP_SKIP]) return;
+
+      var left = path.get(&#x22;left&#x22;);
+      if (!left.isIdentifier()) return;
+
+      var name = left.node.name;
+      var exports = this.exports[name];
+      if (!exports) return;
+
+      if (this.scope.getBinding(name) !== path.scope.getBinding(name)) return;
+
+      node[REASSIGN_REMAP_SKIP] = true;
+
+      for (var _iterator = exports, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : (0, _getIterator3
+.default)(_iterator);;) {
+        var _ref;
+
+        if (_isArray) {
+          if (_i &#x3e;= _iterator.length) break;
+          _ref = _iterator[_i++];
+        } else {
+          _i = _iterator.next();
+          if (_i.done) break;
+          _ref = _i.value;
+        }
+
+        var reid = _ref;
+
+        node = buildExportsAssignment(reid, node).expression;
+      }
+
+      path.replaceWith(node);
+      this.requeueInParent(path);
+    },
+    UpdateExpression: function UpdateExpression(path) {
+      var arg = path.get(&#x22;argument&#x22;);
+      if (!arg.isIdentifier()) return;
+
+      var name = arg.node.name;
+      var exports = this.exports[name];
+      if (!exports) return;
+
+      if (this.scope.getBinding(name) !== path.scope.getBinding(name)) return;
+
+      var node = t.assignmentExpression(path.node.operator[0] + &#x22;=&#x22;, arg.node, t.numericLiteral(1));
+
+      if (path.parentPath.isExpressionStatement() &#x26;&#x26; !path.isCompletionRecord() || path.node.prefix) {
+        path.replaceWith(node);
+        this.requeueInParent(path);
+        return;
+      }
+
+      var nodes = [];
+      nodes.push(node);
+
+      var operator = void 0;
+      if (path.node.operator === &#x22;--&#x22;) {
+        operator = &#x22;+&#x22;;
+      } else {
+        operator = &#x22;-&#x22;;
+      }
+      nodes.push(t.binaryExpression(operator, arg.node, t.numericLiteral(1)));
+
+      path.replaceWithMultiple(t.sequenceExpression(nodes));
+    }
+  };
+
+  return {
+    inherits: require(&#x22;babel-plugin-transform-strict-mode&#x22;),
+
+    visitor: {
+      ThisExpression: function ThisExpression(path, state) {
+        if (this.ranCommonJS) return;
+
+        if (state.opts.allowTopLevelThis !== true &#x26;&#x26; !path.findParent(function (path) {
+          return !path.is(&#x22;shadow&#x22;) &#x26;&#x26; THIS_BREAK_KEYS.indexOf(path.type) &#x3e;= 0;
+        })) {
+          path.replaceWith(t.identifier(&#x22;undefined&#x22;));
+        }
+      },
+
+
+      Program: {
+        exit: function exit(path) {
+          this.ranCommonJS = true;
+
+          var strict = !!this.opts.strict;
+          var noInterop = !!this.opts.noInterop;
+
+          var scope = path.scope;
+
+          scope.rename(&#x22;module&#x22;);
+          scope.rename(&#x22;exports&#x22;);
+          scope.rename(&#x22;require&#x22;);
+
+          var hasExports = false;
+          var hasImports = false;
+
+          var body = path.get(&#x22;body&#x22;);
+          var imports = (0, _create2.default)(null);
+          var exports = (0, _create2.default)(null);
+
+          var nonHoistedExportNames = (0, _create2.default)(null);
+
+          var topNodes = [];
+          var remaps = (0, _create2.default)(null);
+
+          var requires = (0, _create2.default)(null);
+
+          function addRequire(source, blockHoist) {
+            var cached = requires[source]; ...</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocFooterDiv">
+    [ this document was created with
+    <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a>
+    ]
+</div>
+</div>
